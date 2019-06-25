@@ -1,6 +1,7 @@
 #import requests
 import formulas
 import csv
+import requests
 
 def get_focal_point(location_list, r1):
     
@@ -30,12 +31,12 @@ def get_focal_point(location_list, r1):
             lat2 = other_location[0]
             lon2 = other_location[1]
             dist = formulas.haversine(lat1, lon1, lat2, lon2)
-            if dist <= r1:
+            if dist <= float(r1):
                 local_set.add(other_location)
         local_set_list.append((location, local_set))
     
     #local set around focal point of locations in (address, lat, long)
-    local_set = None
+    local_set = set()
     # focal point
     focal_point = None
     #iterate through dictionary to get largest set and focal point
@@ -48,7 +49,7 @@ def get_focal_point(location_list, r1):
 
 def create_remote_set(focal_point, location_list, r2):
     #remote set around focal point of locations in (address, lat, long)
-    remote_set = None
+    remote_set = set()
 
     lat1 = focal_point[0]
     lon1 = focal_point[1]
@@ -56,13 +57,43 @@ def create_remote_set(focal_point, location_list, r2):
         lat2 = loc[0]
         lon2 = loc[1]
         dist = formulas.haversine(lat1, lon1, lat2, lon2)
-        if dist > r2:
+        if dist > float(r2):
             remote_set.add(loc)
     return remote_set
 
+def generate_geo_relationship(focal_point, other_center):
+    #this is for using the bing reverse geocode api
+    coord1 = focal_point[0] +","+ focal_point[1]
+    coord2 = other_center[0] +","+ other_center[1]
+    response1 = requests.get("http://dev.virtualearth.net/REST/v1/Locations/" + coord1,
+                params={"key":"AjhzSUKjNFFV0ckKVCV64tSLhw_EWSlN6LP9UPiWdEJDRMZn3Vm17HtoSclZZfO_ ",
+                        })
+    response2 = requests.get("http://dev.virtualearth.net/REST/v1/Locations/" + coord2,
+                params={"key":"AjhzSUKjNFFV0ckKVCV64tSLhw_EWSlN6LP9UPiWdEJDRMZn3Vm17HtoSclZZfO_ ",
+                        })
+    data1 = response1.json()
+    data2 = response2.json()
+    #get the country data
+    try:
+        country1 = str(data1['resourceSets'][0]['resources'][0]['address']['countryRegion'])
+    except:
+        country1 = "N/A"
+        
+    try:
+        country2 = str(data2['resourceSets'][0]['resources'][0]['address']['countryRegion'])
+    except:
+        country2 = "N/A"
+      
+    if country1 == country2:
+        if country1 == "N/A":
+            return "N/A"
+        else: 
+            return "domestic"
+    else:
+        return "cross border"
 
 if __name__ == '__main__':
-    ungrouped = set()
+    ungrouped = []
     r1 = 0
     r2 = 0
     with open('inputs/input.tsv', encoding='latin-1') as tsvfile:
@@ -73,43 +104,64 @@ if __name__ == '__main__':
             lat = row['lat']
             lng = row['lng']
             
-            ungrouped.add((lat, lng))
+            ungrouped.append((lat, lng))
             
-    with open('inputs/arguments.tsv', encoding='latin-1') as csvfile:
+    with open('inputs/arguments.csv', encoding='utf-8-sig') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=',')
         
-        #create the set of ungrouped addresses
+        #create the list of ungrouped addresses
         for row in reader:
             r1 = row['r1']
             r2 = row['r2']
     
     #get the local locations
-    (local_center, local_set) = get_focal_point(list(ungrouped), r1)
+    (local_center, local_set) = get_focal_point(ungrouped, r1)
     #get the remote locations
-    remote_set = create_remote_set(local_center, list(ungrouped), r2)
+    remote_set = create_remote_set(local_center, ungrouped, r2)
     #find the locations that are not local and not remote
-    inbetween = ungrouped - remote_set - local_set
+    inbetween = set(ungrouped) - remote_set - local_set
     
-    #set of sets of remote groups
-    remote_groups = set()
+    #list of sets of remote groups
+    remote_groups = []
     
     while len(remote_set) > 0:
         #get largest remote group, add to remote groups and remove from set of ungrouped remotes
         remote_group = get_focal_point(remote_set, r1)
-        remote_groups.add(remote_group)
-        remote_set -= remote_group
+        remote_groups.append(remote_group)
+        remote_set -= remote_group[1]
        
-    with open('outputs/groupings.tsv', 'w', newline="\n", encoding='latin-1') as out_file: 
-        csv_writer = csv.writer(out_file, dialect='excel-tab')
-        header = ["group_classification", "locations", "point_lat", "point_lng", "geographical_relationship"]
+    with open('outputs/new_output7.csv', 'w', newline="\n", encoding='latin-1') as out_file: 
+        csv_writer = csv.writer(out_file, delimiter=',')
+        header = ["group_classification", "locations", "point_lat", "point_lng", "geographical_relationship", 
+                  "haversine_distance_to_local", "euclidean_distance_to_local"]
         csv_writer.writerow(header)
-        
-    csv_writer.writerow(['local', '; '.join(local_set), local_center[0], local_center[1], 'domestic'])
-    csv_writer.writerow(['non-local', '; '.join(inbetween), 'N/A', 'N/A', 'N/A'])
     
-    for remote_group in remote_groups:
-        (coordinates, group) = remote_group
-        csv_writer.writerow(['remote', '; '.join(group), coordinates[0], coordinates[1], 'ADD FUNCTIONALITY LATER'])
+        # convert local_set from a set of tuples to a list of strings
+        local_set_string = []
+        for (lat, lon) in local_set:
+            coord = '(' + str(lat) + ',' + str(lon) +')'
+            local_set_string.append(coord)
+            
+        csv_writer.writerow(['local', '; '.join(local_set_string), local_center[0], local_center[1], 'domestic', 'N/A'])
         
+        # convert local_set from a set of tuples to a list of strings
+        inbetween_set_string = []
+        for (lat, lon) in inbetween:
+            coord = '(' + str(lat) + ',' + str(lon) +')'
+            inbetween_set_string.append(coord)
+        csv_writer.writerow(['non-local', '; '.join(inbetween_set_string), 'N/A', 'N/A', 'N/A', 'N/A'])
     
+        for remote_group in remote_groups:
+            (coordinates, group) = remote_group
+            # convert remote_group from a set of tuples to a list of strings
+            remote_group_string = []
+            for (lat, lon) in group:
+                coord = '(' + str(lat) + ',' + str(lon) +')'
+                remote_group_string.append(coord)
+            csv_writer.writerow(['remote', '; '.join(remote_group_string), coordinates[0], coordinates[1], 
+                                 generate_geo_relationship(local_center, coordinates), 
+                                 formulas.haversine(local_center[0], local_center[1], coordinates[0], coordinates[1]), 
+                                 formulas.euclidean(local_center[0], local_center[1], coordinates[0], coordinates[1])])
+            
+        
     
