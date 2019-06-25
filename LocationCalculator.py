@@ -61,23 +61,14 @@ def create_remote_set(focal_point, location_list, r2):
             remote_set.add(loc)
     return remote_set
 
-def generate_geo_relationship(focal_point, other_center):
+def generate_geo_relationship(country1, other_center):
     #this is for using the bing reverse geocode api
-    coord1 = focal_point[0] +","+ focal_point[1]
     coord2 = other_center[0] +","+ other_center[1]
-    response1 = requests.get("http://dev.virtualearth.net/REST/v1/Locations/" + coord1,
-                params={"key":"AjhzSUKjNFFV0ckKVCV64tSLhw_EWSlN6LP9UPiWdEJDRMZn3Vm17HtoSclZZfO_ ",
-                        })
     response2 = requests.get("http://dev.virtualearth.net/REST/v1/Locations/" + coord2,
                 params={"key":"AjhzSUKjNFFV0ckKVCV64tSLhw_EWSlN6LP9UPiWdEJDRMZn3Vm17HtoSclZZfO_ ",
                         })
-    data1 = response1.json()
     data2 = response2.json()
     #get the country data
-    try:
-        country1 = str(data1['resourceSets'][0]['resources'][0]['address']['countryRegion'])
-    except:
-        country1 = "N/A"
         
     try:
         country2 = str(data2['resourceSets'][0]['resources'][0]['address']['countryRegion'])
@@ -86,11 +77,11 @@ def generate_geo_relationship(focal_point, other_center):
       
     if country1 == country2:
         if country1 == "N/A":
-            return "N/A"
+            return (country1, country2, "N/A")
         else: 
-            return "domestic"
+            return (country1, country2, "domestic")
     else:
-        return "cross border"
+        return (country1, country2, "cross border")
 
 if __name__ == '__main__':
     ungrouped = []
@@ -120,6 +111,18 @@ if __name__ == '__main__':
     remote_set = create_remote_set(local_center, ungrouped, r2)
     #find the locations that are not local and not remote
     inbetween = set(ungrouped) - remote_set - local_set
+    # get local country
+    coord1 = local_center[0] +","+ local_center[1]
+    response1 = requests.get("http://dev.virtualearth.net/REST/v1/Locations/" + coord1,
+                params={"key":"AjhzSUKjNFFV0ckKVCV64tSLhw_EWSlN6LP9UPiWdEJDRMZn3Vm17HtoSclZZfO_ ",
+                        })
+    data1 = response1.json()
+    #get the country data
+    try:
+        country1 = str(data1['resourceSets'][0]['resources'][0]['address']['countryRegion'])
+    except:
+        country1 = "N/A"
+        
     
     #list of sets of remote groups
     remote_groups = []
@@ -130,9 +133,9 @@ if __name__ == '__main__':
         remote_groups.append(remote_group)
         remote_set -= remote_group[1]
        
-    with open('outputs/new_output7.csv', 'w', newline="\n", encoding='latin-1') as out_file: 
+    with open('outputs/new_output8.csv', 'w', newline="\n", encoding='latin-1') as out_file: 
         csv_writer = csv.writer(out_file, delimiter=',')
-        header = ["group_classification", "locations", "point_lat", "point_lng", "geographical_relationship", 
+        header = ["group_classification", "locations", "point_lat", "point_lng", "country", "geographical_relationship", 
                   "haversine_distance_to_local", "euclidean_distance_to_local"]
         csv_writer.writerow(header)
     
@@ -142,14 +145,14 @@ if __name__ == '__main__':
             coord = '(' + str(lat) + ',' + str(lon) +')'
             local_set_string.append(coord)
             
-        csv_writer.writerow(['local', '; '.join(local_set_string), local_center[0], local_center[1], 'domestic', 'N/A'])
+        csv_writer.writerow(['local', '; '.join(local_set_string), local_center[0], local_center[1], country1, 'domestic', 'N/A', 'N/A'])
         
         # convert local_set from a set of tuples to a list of strings
         inbetween_set_string = []
         for (lat, lon) in inbetween:
             coord = '(' + str(lat) + ',' + str(lon) +')'
             inbetween_set_string.append(coord)
-        csv_writer.writerow(['non-local', '; '.join(inbetween_set_string), 'N/A', 'N/A', 'N/A', 'N/A'])
+        csv_writer.writerow(['non-local', '; '.join(inbetween_set_string), 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'])
     
         for remote_group in remote_groups:
             (coordinates, group) = remote_group
@@ -158,8 +161,8 @@ if __name__ == '__main__':
             for (lat, lon) in group:
                 coord = '(' + str(lat) + ',' + str(lon) +')'
                 remote_group_string.append(coord)
-            csv_writer.writerow(['remote', '; '.join(remote_group_string), coordinates[0], coordinates[1], 
-                                 generate_geo_relationship(local_center, coordinates), 
+            (c1, c2, rel) = generate_geo_relationship(local_center, coordinates)
+            csv_writer.writerow(['remote', '; '.join(remote_group_string), coordinates[0], coordinates[1], c2, rel, 
                                  formulas.haversine(local_center[0], local_center[1], coordinates[0], coordinates[1]), 
                                  formulas.euclidean(local_center[0], local_center[1], coordinates[0], coordinates[1])])
             
