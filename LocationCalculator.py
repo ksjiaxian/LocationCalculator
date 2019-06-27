@@ -136,7 +136,7 @@ if __name__ == '__main__':
     with open('outputs/new_output8.csv', 'w', newline="\n", encoding='latin-1') as out_file: 
         csv_writer = csv.writer(out_file, delimiter=',')
         header = ["group_classification", "locations", "point_lat", "point_lng", "country", "geographical_relationship", 
-                  "haversine_distance_to_local", "euclidean_distance_to_local"]
+                  "haversine_distance_to_local"]
         csv_writer.writerow(header)
     
         # convert local_set from a set of tuples to a list of strings
@@ -153,18 +153,25 @@ if __name__ == '__main__':
             coord = '(' + str(lat) + ',' + str(lon) +')'
             inbetween_set_string.append(coord)
         csv_writer.writerow(['non-local', '; '.join(inbetween_set_string), 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'])
-    
+        
+        # sort remote groups by distance away from local focal point
+        remote_group_list = []
         for remote_group in remote_groups:
             (coordinates, group) = remote_group
+            dist = formulas.haversine(local_center[0], local_center[1], coordinates[0], coordinates[1])
+            remote_group_list.append((coordinates, group, dist))
+            remote_group_list.sort(key=lambda tup: tup[2])  # sorts in place
+        
+        for remote_group in remote_group_list:
+            (coordinates, group, dist) = remote_group
             # convert remote_group from a set of tuples to a list of strings
             remote_group_string = []
             for (lat, lon) in group:
                 coord = '(' + str(lat) + ',' + str(lon) +')'
                 remote_group_string.append(coord)
-            (c1, c2, rel) = generate_geo_relationship(local_center, coordinates)
+            (c1, c2, rel) = generate_geo_relationship(country1, coordinates)
             csv_writer.writerow(['remote', '; '.join(remote_group_string), coordinates[0], coordinates[1], c2, rel, 
-                                 formulas.haversine(local_center[0], local_center[1], coordinates[0], coordinates[1]), 
-                                 formulas.euclidean(local_center[0], local_center[1], coordinates[0], coordinates[1])])
+                                 formulas.haversine(local_center[0], local_center[1], coordinates[0], coordinates[1])])
             
         
     
