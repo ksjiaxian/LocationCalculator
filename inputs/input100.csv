@@ -1088,7 +1088,7 @@
 057e62e7-38b4-6062-6f8d-aed28d0e088e,transfusion technologies,haemonetics,c768a295-bd99-2f35-ae23-3a525d328d1e,7452322,4740202-3,0,1,0,1,Wellesley,MA,US,42.2964,-71.2931,207
 057e62e7-38b4-6062-6f8d-aed28d0e088e,transfusion technologies,haemonetics,c768a295-bd99-2f35-ae23-3a525d328d1e,7452322,4740202-4,1,0,0,1,Hampton Falls,NH,US,42.9161,-70.8642,207
 057e62e7-38b4-6062-6f8d-aed28d0e088e,transfusion technologies,haemonetics,c768a295-bd99-2f35-ae23-3a525d328d1e,8591448,4740202-4,1,0,0,1,Hampton Falls,NH,US,42.9161,-70.8642,208
-057e62e7-38b4-6062-6f8d-aed28d0e088e,transfusion technologies,haemonetics,c768a295-bd99-2f35-ae23-3a525d328d1e,8591448,7238165-2,0,1,0,1,Braintree,MA,US,42.2222,-71,208
+057e62e7-38b4-6062-6f8d-aed28d0e088e,transfusion technologies,haemonetics,c768a295-bd99-2f35-ae23-3a525d328d1e,8591448,7238165-2,0,1,0,1,Braintree,MA,US,42.2222,-71.0,208
 057e62e7-38b4-6062-6f8d-aed28d0e088e,transfusion technologies,haemonetics,c768a295-bd99-2f35-ae23-3a525d328d1e,8591448,7601268-1,0,1,0,1,Hingham,MA,US,42.2417,-70.8903,208
 057e62e7-38b4-6062-6f8d-aed28d0e088e,transfusion technologies,haemonetics,c768a295-bd99-2f35-ae23-3a525d328d1e,9539374,4808151-3,1,0,0,1,Amherst,MA,US,42.3803,-72.5236,209
 057e62e7-38b4-6062-6f8d-aed28d0e088e,transfusion technologies,haemonetics,c768a295-bd99-2f35-ae23-3a525d328d1e,9539374,9539374-2,0,1,0,1,Marshfield,MA,US,42.0917,-70.7061,209
@@ -2797,7 +2797,7 @@
 0be67887-54a5-83aa-c315-57f80c762ad2,dictaphone,nuance communications,546d3969-f9d3-1e43-bda5-5d989faf04ca,9728191,5634087-3,1,0,0,1,Medford,MA,US,42.4183,-71.1067,647
 0be67887-54a5-83aa-c315-57f80c762ad2,dictaphone,nuance communications,546d3969-f9d3-1e43-bda5-5d989faf04ca,9728191,7912713-1,0,1,0,1,Turin,NULL,IT,45.05,7.6667,647
 0be67887-54a5-83aa-c315-57f80c762ad2,dictaphone,nuance communications,546d3969-f9d3-1e43-bda5-5d989faf04ca,9728191,7912713-2,0,1,0,1,Alessandria,NULL,IT,44.9073,8.6117,647
-0be67887-54a5-83aa-c315-57f80c762ad2,dictaphone,nuance communications,546d3969-f9d3-1e43-bda5-5d989faf04ca,9728191,9728191-1,0,1,0,1,Moncalieri,NULL,IT,45,7.6833,647
+0be67887-54a5-83aa-c315-57f80c762ad2,dictaphone,nuance communications,546d3969-f9d3-1e43-bda5-5d989faf04ca,9728191,9728191-1,0,1,0,1,Moncalieri,NULL,IT,45.0,7.6833,647
 0be67887-54a5-83aa-c315-57f80c762ad2,dictaphone,nuance communications,546d3969-f9d3-1e43-bda5-5d989faf04ca,9865266,5634087-3,1,0,0,1,Medford,MA,US,42.4183,-71.1067,648
 0be67887-54a5-83aa-c315-57f80c762ad2,dictaphone,nuance communications,546d3969-f9d3-1e43-bda5-5d989faf04ca,9865266,7912713-1,0,1,0,1,Borgone Susa,NULL,IT,45.1333,7.2333,648
 0be67887-54a5-83aa-c315-57f80c762ad2,dictaphone,nuance communications,546d3969-f9d3-1e43-bda5-5d989faf04ca,9865266,7912713-2,0,1,0,1,Alessandria,NULL,IT,44.9073,8.6117,648
@@ -3003,7 +3003,7 @@
 0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9072602,8535374-3,0,1,0,1,Mounds View,MN,US,45.105,-93.2083,700
 0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9072603,7201772-2,1,0,0,1,Even Yehuda,NULL,IL,32.2696,34.8876,701
 0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9072603,7993394-1,0,1,0,1,Zichron Yaackov,NULL,IL,32.5739,34.952,701
-0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9072603,8137398-2,1,0,0,1,Givatamin,NULL,IL,32.5739,34.952,701
+0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9072603,8137398-2,1,0,0,1,Givatamin,NULL,IL,,,701
 0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9072603,8845718-4,0,1,0,1,Tel Aviv,NULL,IL,32.0667,34.7667,701
 0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9144493,4485632-1,0,1,0,1,Ballybrit,NULL,IE,53.2969,-8.9936,702
 0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9144493,4508372-1,0,1,0,1,Ballybrit,NULL,IE,53.2969,-8.9936,702
@@ -3042,7 +3042,7 @@
 0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9737397,7201772-2,1,0,0,1,Even Yehuda,NULL,IL,32.2696,34.8876,710
 0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9737397,7993394-1,0,1,0,1,Netanya,NULL,IL,32.3329,34.8599,710
 0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9867698,7201772-2,1,0,0,1,Even Yehuda,NULL,IL,32.2696,34.8876,711
-0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9867698,7846188-3,0,1,0,1,Metanya,NULL,IL,32.2696,34.8876,711
+0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9867698,7846188-3,0,1,0,1,Metanya,NULL,IL,,,711
 0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9867698,8137398-2,1,0,0,1,Minnetonka,MN,US,44.9133,-93.5031,711
 0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9867698,8535374-3,0,1,0,1,Forest Lake,MN,US,45.2789,-92.985,711
 0db8ab9b-88a4-cf99-ad90-a66cccaf89dd,ventor technologies,medtronic,d5b9d6ac-97a8-1abf-c138-5c548d4acb38,9867698,9066801-4,0,1,0,1,Irvine,CA,US,33.6694,-117.8222,711
@@ -3413,7 +3413,7 @@
 0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8436304,4131485-2,1,0,0,1,Tucson,AZ,US,32.2217,-110.9258,847
 0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8436304,8026177-2,0,1,0,1,Tucson,AZ,US,32.2217,-110.9258,847
 0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8452557,6094155-1,1,0,0,1,Pliezhausen,NULL,DE,48.55,9.2167,848
-0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8452557,8452557-1,0,0,1,1,Haan,NULL,DE,51.2,7,848
+0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8452557,8452557-1,0,0,1,1,Haan,NULL,DE,51.2,7.0,848
 0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8452557,8452557-2,0,0,1,1,Duesseldorf,NULL,DE,51.2277,6.7735,848
 0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8452557,8452557-3,0,1,0,1,Sachse,TX,US,32.9761,-96.595,848
 0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8452557,8452557-4,0,0,1,1,Durmersheim,NULL,DE,48.9333,8.2667,848
@@ -3425,7 +3425,7 @@
 0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8493051,6642795-2,0,1,0,1,Wylie,TX,US,33.015,-96.5386,850
 0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8493077,5692016-1,0,1,0,1,Attenkirchen,NULL,DE,48.5,11.7667,851
 0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8493077,5808501-1,1,0,0,1,Tucson,AZ,US,32.2217,-110.9258,851
-0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8493077,7362058-2,0,1,0,1,Bad Aibling,NULL,DE,47.8667,12,851
+0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8493077,7362058-2,0,1,0,1,Bad Aibling,NULL,DE,47.8667,12.0,851
 0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8514120,5172019-2,1,0,0,1,Tucson,AZ,US,32.2217,-110.9258,852
 0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8514120,6617828-2,0,1,0,1,Plano,TX,US,33.0197,-96.6986,852
 0e8dc09c-5de7-a9d2-df8b-8ebca700a9b9,burr-brown corporation,texas instruments,41720f6f-aa97-d98e-ce1f-8597c1773e4a,8514120,8514120-2,0,1,0,1,Dallas,TX,US,32.7833,-96.8,852

@@ -164,15 +164,18 @@ def output_each_patent(ungrouped, patent, r1, r2):
             coord = '(' + str(lat) + ',' + str(lon) +')'
             inbetween_set_string.append(coord)
         
-        # dict for nonlocal_cluster
-        nonlocal_cluster_dict = {'number_of_inventors_in_cluster': len(inbetween),
-                              'locations': '; '.join(inbetween_set_string),
-                              'center_lat': 'N/A',
-                              'center_lng': 'N/A',
-                              'country': 'N/A',
-                              'geographical_relationship:': 'N/A',
-                              'haversine_distance_to_local': 'N/A'}
-        row.append(nonlocal_cluster_dict)
+        if len(inbetween_set_string) == 0:
+            row.append('N/A')
+        else:   
+            # dict for nonlocal_cluster
+            nonlocal_cluster_dict = {'number_of_inventors_in_cluster': len(inbetween),
+                                  'locations': '; '.join(inbetween_set_string),
+                                  'center_lat': 'N/A',
+                                  'center_lng': 'N/A',
+                                  'country': 'N/A',
+                                  'geographical_relationship:': 'N/A',
+                                  'haversine_distance_to_local': 'N/A'}
+            row.append(nonlocal_cluster_dict)
         
         
         # sort remote groups by distance away from local focal point
@@ -183,6 +186,7 @@ def output_each_patent(ungrouped, patent, r1, r2):
             remote_group_list.append((coordinates, group, dist))
             remote_group_list.sort(key=lambda tup: tup[2])  # sorts in place
         
+        write_remote_cluster = []
         for remote_group in remote_group_list:
             (coordinates, group, dist) = remote_group
             # convert remote_group from a set of tuples to a list of strings
@@ -199,7 +203,12 @@ def output_each_patent(ungrouped, patent, r1, r2):
                                   'country': c2,
                                   'geographical_relationship:': rel,
                                   'haversine_distance_to_local': formulas.haversine(local_center[0], local_center[1], coordinates[0], coordinates[1])}
-            row.append(remote_cluster_dict)
+            write_remote_cluster.append(remote_cluster_dict)
+        if (len(write_remote_cluster) == 0):
+            row.append('N/A')
+        else:
+            row.append(write_remote_cluster)
+        
         csv_writer.writerow(row)
         
 if __name__ == '__main__':
@@ -224,21 +233,18 @@ if __name__ == '__main__':
     
     total_length = 0     
     # process patent records
-    with open('inputs/input100_blank.csv', encoding='utf-8-sig') as csvfile:
+    with open('inputs/input100.csv', encoding='utf-8-sig') as csvfile:
         reader_count = csv.DictReader(csvfile, delimiter=',')
         total_length =  sum(1 for row in reader_count)
-    with open('inputs/input100_blank.csv', encoding='utf-8-sig') as csvfile:
+    with open('inputs/input100.csv', encoding='utf-8-sig') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=',')
         #create the set of ungrouped addresses
         ungrouped = []
-        
-
         print(total_length)
         patent = ''
         for row in reader:
-            print(reader.line_num)
+            print(row['temp_id'])
             if (reader.line_num == 2):
-                print(1)
                 patent = row['patent_id']
                 lat = row['inventor_add_lat']
                 lng = row['inventor_add_lon']
