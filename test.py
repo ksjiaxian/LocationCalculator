@@ -2,7 +2,6 @@
 import formulas
 import csv
 import requests
-from fastnumbers import fast_real
 
 def get_focal_point(location_list, r1):
     
@@ -25,20 +24,15 @@ def get_focal_point(location_list, r1):
     local_set_list =[]
     # iterate through location_list to create sets for each location
     for location in location_list:
-
         lat1 = location[0]
         lon1 = location[1]
         local_set = set()
         for other_location in location_list:
             lat2 = other_location[0]
             lon2 = other_location[1]
-            try:  
-                dist = formulas.haversine(lat1, lon1, lat2, lon2)
-                if dist <= float(r1):
-                    local_set.add(other_location)
-            except:
-                pass
-            
+            dist = formulas.haversine(lat1, lon1, lat2, lon2)
+            if dist <= float(r1):
+                local_set.add(other_location)
         local_set_list.append((location, local_set))
     
     #local set around focal point of locations in (address, lat, long)
@@ -56,17 +50,15 @@ def get_focal_point(location_list, r1):
 def create_remote_set(focal_point, location_list, r2):
     #remote set around focal point of locations in (address, lat, long)
     remote_set = set()
+
     lat1 = focal_point[0]
     lon1 = focal_point[1]
     for loc in location_list:
         lat2 = loc[0]
         lon2 = loc[1]
-        try:
-            dist = formulas.haversine(lat1, lon1, lat2, lon2)
-            if dist > float(r2):
-                remote_set.add(loc)
-        except:
-            pass
+        dist = formulas.haversine(lat1, lon1, lat2, lon2)
+        if dist > float(r2):
+            remote_set.add(loc)
     return remote_set
 
 def generate_geo_relationship(country1, other_center):
@@ -221,72 +213,41 @@ if __name__ == '__main__':
         for row in reader:
             r1 = row['r1']
             r2 = row['r2']
-    
-    total_length = 0     
+            
     # process patent records
     with open('inputs/input100_blank.csv', encoding='utf-8-sig') as csvfile:
-        reader_count = csv.DictReader(csvfile, delimiter=',')
-        total_length =  sum(1 for row in reader_count)
-    with open('inputs/input100_blank.csv', encoding='utf-8-sig') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=',')
+        
         #create the set of ungrouped addresses
         ungrouped = []
+        total_length =  sum(1 for row in reader)
+       
         
-
-        print(total_length)
-        patent = ''
+        
         for row in reader:
-            print(reader.line_num)
-            if (reader.line_num == 2):
-                print(1)
+            if (reader.line_num == 1):
                 patent = row['patent_id']
                 lat = row['inventor_add_lat']
                 lng = row['inventor_add_lon']
                 inventor_id = row['inventor_id']
-                if lat == '' or lng == '':
-                        try:
-                            city = row['inventor_add_city']
-                            state = row['inventor_add_state']
-                            country = row['inventor_add_country']
-                            response = requests.get("http://dev.virtualearth.net/REST/v1/Locations/" + city + ' ' + state + ' ' + country,
-                            params={"include":"queryParse",
-                            "key":"AvQOaBs2cYn6OAWmZ9tEAvGuJGfJusGnLSyHnD9g7USe35x69PmSiyk_51Htk3Z0"})
-                            data = response.json()
-                            lat = data['resourceSets'][0]['resources'][0]['point']['coordinates'][0]
-                            lng = data['resourceSets'][0]['resources'][0]['point']['coordinates'][1]
-                            print(lat)
-                            print(lng)
-                            ungrouped.append((lat, lng, inventor_id))
-                        except:
-                            ungrouped.append((lat, lng, inventor_id))
-                else:
-                    ungrouped.append((lat, lng, inventor_id))
-            elif (reader.line_num == total_length + 1):
+                ungrouped.append((lat, lng, inventor_id))
+            elif (reader.line_num == total_length):
                 #process last row here
                 if row['patent_id'] == patent: 
-                    patent = row['patent_id']
-                    lat = fast_real(row['inventor_add_lat'])
-                    lng = fast_real(row['inventor_add_lon'])
-                    inventor_id = row['inventor_id']
-                    if lat == '' or lng == '':
-                        try:
-                            city = row['inventor_add_city']
-                            state = row['inventor_add_state']
-                            country = row['inventor_add_country']
-                            response = requests.get("http://dev.virtualearth.net/REST/v1/Locations/" + city + ' ' + state + ' ' + country,
-                            params={"include":"queryParse",
-                            "key":"AvQOaBs2cYn6OAWmZ9tEAvGuJGfJusGnLSyHnD9g7USe35x69PmSiyk_51Htk3Z0"})
-                            data = response.json()
-                            lat = data['resourceSets'][0]['resources'][0]['point']['coordinates'][0]
-                            lng = data['resourceSets'][0]['resources'][0]['point']['coordinates'][1]
-                            print(lat)
-                            print(lng)
-                            ungrouped.append((lat, lng, inventor_id))
-                        except:
-                            ungrouped.append((lat, lng, inventor_id))
-                    else:
+                    try:
+                        patent = row['patent_id']
+                        lat = row['inventor_add_lat']
+                        lng = row['inventor_add_lon']
+                        inventor_id = row['inventor_id']
                         ungrouped.append((lat, lng, inventor_id))
-                    output_each_patent(ungrouped, patent, r1, r2)    
+                        
+                        print(row)
+                        output_each_patent(ungrouped, patent, r1, r2)
+                    except ValueError:
+                        print(ValueError)
+                        print(int(row['inventor_add_lat'][0]))
+                        print(row['inventor_add_lon'])
+                        print(type(lng))
                     
                 else:
                     
@@ -295,78 +256,31 @@ if __name__ == '__main__':
                     lat = row['inventor_add_lat']
                     lng = row['inventor_add_lon']
                     inventor_id = row['inventor_id']
-                    if lat == '' or lng == '':
-                        try:
-                            city = row['inventor_add_city']
-                            state = row['inventor_add_state']
-                            country = row['inventor_add_country']
-                            response = requests.get("http://dev.virtualearth.net/REST/v1/Locations/" + city + ' ' + state + ' ' + country,
-                            params={"include":"queryParse",
-                            "key":"AvQOaBs2cYn6OAWmZ9tEAvGuJGfJusGnLSyHnD9g7USe35x69PmSiyk_51Htk3Z0"})
-                            data = response.json()
-                            lat = data['resourceSets'][0]['resources'][0]['point']['coordinates'][0]
-                            lng = data['resourceSets'][0]['resources'][0]['point']['coordinates'][1]
-                            print(lat)
-                            print(lng)
-                            ungrouped.append((lat, lng, inventor_id))
-                        except:
-                            ungrouped.append((lat, lng, inventor_id))
-                    else:
-                        ungrouped.append((lat, lng, inventor_id))
+                    ungrouped.append((lat, lng, inventor_id))
                     output_each_patent(ungrouped, patent, r1, r2)
              
             else:      
                 if row['patent_id'] == patent:
-                    patent = row['patent_id']
-                    lat = fast_real(row['inventor_add_lat'])   
-                    lng = fast_real(row['inventor_add_lon'])
-                    inventor_id = row['inventor_id']
-                    if lat == '' or lng == '':
-                        try:
-                            city = row['inventor_add_city']
-                            state = row['inventor_add_state']
-                            country = row['inventor_add_country']
-                            response = requests.get("http://dev.virtualearth.net/REST/v1/Locations/" + city + ' ' + state + ' ' + country,
-                            params={"include":"queryParse",
-                            "key":"AvQOaBs2cYn6OAWmZ9tEAvGuJGfJusGnLSyHnD9g7USe35x69PmSiyk_51Htk3Z0"})
-                            data = response.json()
-                            lat = data['resourceSets'][0]['resources'][0]['point']['coordinates'][0]
-                            lng = data['resourceSets'][0]['resources'][0]['point']['coordinates'][1]
-                            print(lat)
-                            print(lng)
-                            ungrouped.append((lat, lng, inventor_id))
-                        except:
-                            ungrouped.append((lat, lng, inventor_id))
-                    else:
+                    
+                        patent = row['patent_id']
+                        lat = row['inventor_add_lat']      
+                        lng = row['inventor_add_lon']
+                        inventor_id = row['inventor_id']
                         ungrouped.append((lat, lng, inventor_id))
+                    
                 else:
                     output_each_patent(ungrouped, patent, r1, r2)
                     
                     patent = row['patent_id']
-                    lat = fast_real(row['inventor_add_lat'])
-                    lng = fast_real(row['inventor_add_lon'])
+                    lat = row['inventor_add_lat']
+                    lng = row['inventor_add_lon']
                     inventor_id = row['inventor_id']
                     ungrouped = []
-                    if lat == '' or lng == '':
-                        try:
-                            city = row['inventor_add_city']
-                            state = row['inventor_add_state']
-                            country = row['inventor_add_country']
-                            response = requests.get("http://dev.virtualearth.net/REST/v1/Locations/" + city + ' ' + state + ' ' + country,
-                            params={"include":"queryParse",
-                            "key":"AvQOaBs2cYn6OAWmZ9tEAvGuJGfJusGnLSyHnD9g7USe35x69PmSiyk_51Htk3Z0"})
-                            data = response.json()
-                            lat = data['resourceSets'][0]['resources'][0]['point']['coordinates'][0]
-                            lng = data['resourceSets'][0]['resources'][0]['point']['coordinates'][1]
-                            print(lat)
-                            print(lng)
-                            ungrouped.append((lat, lng, inventor_id))
-                        except:
-                            ungrouped.append((lat, lng, inventor_id))
-                    else:
-                        ungrouped.append((lat, lng, inventor_id))
+                    ungrouped.append((lat, lng, inventor_id))
                    
-              
+               
+            
+                
         
         
         
