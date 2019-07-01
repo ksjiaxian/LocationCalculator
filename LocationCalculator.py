@@ -154,7 +154,7 @@ def output_each_patent(ungrouped, patent, r1, r2):
                               'center_lat': local_center[0],
                               'center_lng': local_center[1],
                               'country': country1,
-                              'geographical_relationship:': 'domestic',
+                              'geographical_relationship': 'domestic',
                               'haversine_distance_to_local': 'N/A'}
         row.append(local_cluster_dict)
         
