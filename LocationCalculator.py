@@ -20,6 +20,7 @@ def get_focal_point(location_list, r1):
         location_list.append(address, lat, lng)
 
         print(str(lat) + ", " + str(lng))
+    
     '''
     #list of location set around every point in tuple form (location, set)
     local_set_list =[]
@@ -133,7 +134,7 @@ def output_each_patent(ungrouped, patent, r1, r2):
     row.append(1 + len(remote_groups)) # number of clusters
     row.append(r1) # local radius
     row.append(r2) # remote radius
-    with open('outputs/output.csv', 'a', newline="\n", encoding='latin-1') as out_file: 
+    with open('outputs/groupings.csv', 'a', newline="\n", encoding='latin-1') as out_file: 
         csv_writer = csv.writer(out_file, delimiter=',')
         '''
         header = ["patent_id", "number_of_inventors", "number_of_local_inventors", "number_of_remote_inventors", "number_of_clusters (local+remote)", "radius_local", 
@@ -214,7 +215,7 @@ def output_each_patent(ungrouped, patent, r1, r2):
 if __name__ == '__main__':
     
     # write header
-    with open('outputs/output.csv', 'w', newline="\n", encoding='latin-1') as out_file: 
+    with open('outputs/groupings.csv', 'w', newline="\n", encoding='latin-1') as out_file: 
         csv_writer = csv.writer(out_file, delimiter=',')
         header = ["patent_id", "number_of_inventors", "number_of_local_inventors", "number_of_remote_inventors", "number_of_clusters (local+remote)", "radius_local", 
                   "radius_remote", "local_cluster", "nonlocal_cluster", "remote_cluster"]
@@ -233,10 +234,10 @@ if __name__ == '__main__':
     
     total_length = 0     
     # process patent records
-    with open('inputs/input100.csv', encoding='utf-8-sig') as csvfile:
+    with open('inputs/patent_list.csv', encoding='utf-8-sig') as csvfile:
         reader_count = csv.DictReader(csvfile, delimiter=',')
         total_length =  sum(1 for row in reader_count)
-    with open('inputs/input100.csv', encoding='utf-8-sig') as csvfile:
+    with open('inputs/patent_list.csv', encoding='utf-8-sig') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=',')
         #create the set of ungrouped addresses
         ungrouped = []
